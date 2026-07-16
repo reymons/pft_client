@@ -4,11 +4,13 @@ import { IAPIFactory } from "@/domain/ports/api/factory";
 import { BudgetsAPI } from "./budgets";
 import { AuthAPI } from "./auth";
 import { UsersAPI } from "./users";
+import { CategoriesAPI } from "./categories";
 
 export class APIFactory implements IAPIFactory {
     private budgets: BudgetsAPI | null = null;
     private auth: AuthAPI | null = null;
     private users: UsersAPI | null = null;
+    private categories: CategoriesAPI | null = null;
 
     constructor(
         private readonly client: RESTClient,
@@ -25,7 +27,7 @@ export class APIFactory implements IAPIFactory {
     getAuthAPI() {
         if (!this.auth) {
             const usersAPI = this.getUsersAPI();
-            this.auth = new AuthAPI(this.client, usersAPI);
+            this.auth = new AuthAPI(this.client, usersAPI, this.mutate);
         }
         return this.auth;
     }
@@ -35,5 +37,12 @@ export class APIFactory implements IAPIFactory {
             this.users = new UsersAPI(this.client, this.mutate);
         }
         return this.users;
+    }
+
+    getCategoriesAPI() {
+        if (!this.categories) {
+            this.categories = new CategoriesAPI(this.client);
+        }
+        return this.categories;
     }
 }

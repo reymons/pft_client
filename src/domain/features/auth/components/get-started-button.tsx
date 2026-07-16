@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { Button } from "../ui/button";
-import { AuthDialog } from "@/domain/features/auth/components/auth-dialog";
 import { useRouter } from "next/navigation";
 import { paths } from "@/config/paths";
+import { AuthDialog } from "./auth-dialog";
+import { Button } from "@/components/ui/button";
 
 export const GetStartedButton = () => {
     const [open, setOpen] = useState(false);

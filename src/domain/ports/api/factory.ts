@@ -1,5 +1,6 @@
 import { IAuthAPI } from "./auth";
 import { IBudgetsAPI } from "./budgets";
+import { ICategoriesAPI } from "./categories";
 import { IUsersAPI } from "./users";
 
 export interface IAPIFactory {
@@ -8,4 +9,6 @@ export interface IAPIFactory {
     getBudgetsAPI(): IBudgetsAPI;
 
     getUsersAPI(): IUsersAPI;
+
+    getCategoriesAPI(): ICategoriesAPI;
 }

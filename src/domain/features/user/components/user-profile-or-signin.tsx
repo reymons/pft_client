@@ -3,11 +3,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUsersAPI } from "@/domain/api/hooks";
 import { Button } from "@/components/ui/button";
-import { AuthDialog } from "@/domain/features/auth/components/auth-dialog";
 import { paths } from "@/config/paths";
-import { ProfileDropdown } from "./profile-dropdown";
+import { AuthDialog } from "@/domain/features/auth/components/auth-dialog";
+import { UserProfileWithDropdown } from "./user-profile-with-dropdown";
 
-export const Profile = () => {
+export const UserProfileOrSignIn = () => {
     const [open, setOpen] = useState(false);
     const usersAPI = useUsersAPI();
     const [user, userState] = usersAPI.useCurrentUser();
@@ -21,7 +21,7 @@ export const Profile = () => {
     };
 
     return user ? (
-        <ProfileDropdown />
+        <UserProfileWithDropdown />
     ) : (
         <div>
             <AuthDialog isSignIn onSuccess={onSuccess} open={open} onOpenChange={setOpen} />

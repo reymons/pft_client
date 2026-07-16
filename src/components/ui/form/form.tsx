@@ -1,6 +1,12 @@
 import { useRef } from "react";
 import type { InferType, ObjectSchema } from "yup";
-import type { UseFormProps, FieldValues, SubmitHandler as DefaultSubmitHandler, UseFormReturn } from "react-hook-form";
+import type {
+    UseFormProps,
+    FieldValues,
+    SubmitHandler as DefaultSubmitHandler,
+    UseFormReturn,
+    DefaultValues,
+} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, FormProvider } from "react-hook-form";
 
@@ -12,7 +18,7 @@ export type SubmitHandler<T extends FieldValues> = DefaultSubmitHandler<T>;
 type Schema = ObjectSchema<any>;
 
 type Props<S extends Schema, T extends FieldValues = InferType<S>> = {
-    defaultValues: T;
+    defaultValues: DefaultValues<{ [K in keyof T]: T[K] | null }>;
     schema: S;
     onSubmit: SubmitHandler<T>;
     children: (form: UseFormReturn<T> & { formRef: React.RefObject<HTMLFormElement | null> }) => React.ReactNode;

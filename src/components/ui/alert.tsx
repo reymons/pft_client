@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -8,6 +10,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "./alert-dialog";
+import { Loader2 } from "lucide-react";
 
 export type AlertExtProps = {
     open: boolean;
@@ -15,13 +18,21 @@ export type AlertExtProps = {
 };
 
 type Props = AlertExtProps & {
-    onConfirm: () => void;
+    onConfirm: () => Promise<void> | void;
     title: string;
     description: string;
     actionText: string;
 };
 
 export function Alert({ open, onOpenChange, onConfirm, title, description, actionText }: Props) {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const onActionClick = async () => {
+        setIsLoading(true);
+        await onConfirm();
+        setIsLoading(false);
+    };
+
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent>
@@ -32,10 +43,12 @@ export function Alert({ open, onOpenChange, onConfirm, title, description, actio
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
-                        onClick={onConfirm}
+                        disabled={isLoading}
+                        onClick={onActionClick}
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                     >
                         {actionText}
+                        {isLoading && <Loader2 />}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

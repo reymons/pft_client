@@ -8,4 +8,13 @@ export const paths = {
     dashboard: {
         path: "/dashboard",
     },
+    transactions: {
+        path: "/dashboard/transactions",
+    },
+    budgets: {
+        path: "/dashboard/budgets",
+    },
+    settings: {
+        path: "/dashboard/settings",
+    },
 };

@@ -2,12 +2,14 @@ import { createContext, createElement } from "react";
 import { IAuthAPI } from "@/domain/ports/api/auth";
 import { IBudgetsAPI } from "@/domain/ports/api/budgets";
 import { IUsersAPI } from "@/domain/ports/api/users";
+import { ICategoriesAPI } from "../ports/api/categories";
 
 export type ContextValue = {
     api: {
         auth?: IAuthAPI;
         budgets?: IBudgetsAPI;
         users?: IUsersAPI;
+        categories?: ICategoriesAPI;
     };
 };
 

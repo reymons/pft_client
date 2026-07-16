@@ -1,4 +1,3 @@
-import { Header } from "@/components/layout/header/header";
 import { AppConfig } from "./config";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -15,7 +14,6 @@ const RootLayout = ({ children }: Props) => {
         <html lang="en" className={cn("font-sans", geist.variable, "dark")}>
             <body>
                 <AppConfig />
-                <Header />
                 {children}
             </body>
         </html>

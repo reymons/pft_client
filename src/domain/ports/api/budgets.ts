@@ -1,4 +1,5 @@
 import { BudgetModel, BudgetPeriod } from "@/domain/models/budget";
+import { CategoryModel } from "@/domain/models/category";
 import { APIHookReturn } from "./common";
 
 export type SaveBudgetBody = {
@@ -11,5 +12,7 @@ export type SaveBudgetBody = {
 export interface IBudgetsAPI {
     useCurrentBudgets(): APIHookReturn<BudgetModel[]>;
 
-    save(body: SaveBudgetBody): Promise<void>;
+    save(budget: BudgetModel, newCategories: CategoryModel[]): Promise<void>;
+
+    deleteById(id: number): Promise<void>;
 }

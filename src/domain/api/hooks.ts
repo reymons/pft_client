@@ -41,3 +41,10 @@ export const useUsersAPI = () => {
         (api) => api.users,
     );
 };
+
+export const useCategoriesAPI = () => {
+    return useSelectAPI(
+        (f) => f.getCategoriesAPI(),
+        (api) => api.categories,
+    );
+};

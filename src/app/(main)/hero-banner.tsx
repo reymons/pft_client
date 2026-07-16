@@ -3,7 +3,7 @@ import { BarChart3, CreditCard, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { paths } from "@/config/paths";
-import { GetStartedButton } from "../buttons/get-started-button";
+import { GetStartedButton } from "@/domain/features/auth";
 
 export const HeroBanner = () => {
     return (

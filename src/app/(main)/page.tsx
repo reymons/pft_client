@@ -1,4 +1,4 @@
-import { HeroBanner } from "@/components/blocks/hero-banner";
+import { HeroBanner } from "./hero-banner";
 
 const Home = () => {
     return (
