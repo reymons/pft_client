@@ -5,12 +5,14 @@ import { BudgetsAPI } from "./budgets";
 import { AuthAPI } from "./auth";
 import { UsersAPI } from "./users";
 import { CategoriesAPI } from "./categories";
+import { TransactionsAPI } from "./transactions";
 
 export class APIFactory implements IAPIFactory {
     private budgets: BudgetsAPI | null = null;
     private auth: AuthAPI | null = null;
     private users: UsersAPI | null = null;
     private categories: CategoriesAPI | null = null;
+    private transactions: TransactionsAPI | null = null;
 
     constructor(
         private readonly client: RESTClient,
@@ -44,5 +46,12 @@ export class APIFactory implements IAPIFactory {
             this.categories = new CategoriesAPI(this.client);
         }
         return this.categories;
+    }
+
+    getTransactionsAPI() {
+        if (!this.transactions) {
+            this.transactions = new TransactionsAPI(this.client);
+        }
+        return this.transactions;
     }
 }

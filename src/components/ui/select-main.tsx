@@ -14,11 +14,11 @@ export type MainSelectExtProps<T> = Pick<Props<T>, "name" | "onBlur" | "ref" | "
 
 type Props<T> = {
     items: Item<T>[];
-    value: T;
+    value: T | undefined | null;
     onValueChange: ValueChangeHandler<T>;
     onBlur?: React.FocusEventHandler<HTMLButtonElement>;
     ref?: React.Ref<HTMLButtonElement>;
-    name: string;
+    name?: string;
     valueContent: React.ReactNode;
     id?: string;
 };

@@ -48,3 +48,10 @@ export const useCategoriesAPI = () => {
         (api) => api.categories,
     );
 };
+
+export const useTransactionsAPI = () => {
+    return useSelectAPI(
+        (f) => f.getTransactionsAPI(),
+        (api) => api.transactions,
+    );
+};
