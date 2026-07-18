@@ -14,5 +14,7 @@ export interface IBudgetsAPI {
 
     save(budget: BudgetModel, newCategories: CategoryModel[]): Promise<void>;
 
+    edit(budget: BudgetModel, newCategories: CategoryModel[]): Promise<void>;
+
     deleteById(id: number): Promise<void>;
 }

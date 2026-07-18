@@ -47,10 +47,11 @@ export const CreateBudgetForm = ({ budget, isEdit, onSuccess }: Props) => {
     const budgetsAPI = useBudgetsAPI();
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
-        const budget = new BudgetModel(0, data.name, data.amount, data.period, [...data.categories]);
+        const newBudget = new BudgetModel(budget?.id ?? 0, data.name, data.amount, data.period, [...data.categories]);
         if (isEdit) {
+            await budgetsAPI.edit(newBudget, data.newCategories);
         } else {
-            await budgetsAPI.save(budget, data.newCategories);
+            await budgetsAPI.save(newBudget, data.newCategories);
         }
         onSuccess();
     };

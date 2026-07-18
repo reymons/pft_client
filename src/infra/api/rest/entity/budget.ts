@@ -3,7 +3,6 @@ import { CategoryEntity, mapCategoryEntityToModel } from "./category";
 
 export type BudgetEntity = {
     id: number;
-    userId: number;
     name: string;
     amount: number;
     period: BudgetPeriod;

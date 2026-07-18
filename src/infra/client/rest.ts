@@ -42,7 +42,7 @@ export class RESTClient {
         }
 
         const res = await fetch(`${this.baseURL}${url}`, {
-            method,
+            method: method.toUpperCase(),
             headers,
             body: reqBody,
         });
@@ -64,6 +64,10 @@ export class RESTClient {
 
     async post<T>(url: string, body: unknown, conf?: RequestConfig): Promise<T> {
         return this.request("post", url, body, conf);
+    }
+
+    async patch<T>(url: string, body: unknown, conf?: RequestConfig): Promise<T> {
+        return this.request("patch", url, body, conf);
     }
 
     async delete<T>(url: string, body?: unknown, conf?: RequestConfig): Promise<T> {

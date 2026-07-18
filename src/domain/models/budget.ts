@@ -14,7 +14,6 @@ export const budgetPeriod: Record<BudgetPeriod, string> = {
 };
 
 export class BudgetModel extends Model {
-    readonly userId: number;
     readonly name: string;
     readonly amount: number;
     readonly period: BudgetPeriod;

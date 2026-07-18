@@ -30,21 +30,38 @@ export class BudgetsAPI implements IBudgetsAPI {
             categoryIds: budget.categories.map((c) => c.id),
             newCategories: newCategories.map((c) => c.name),
         });
-        await this.mutate<BudgetModel[]>("/budgets", (budgets) => {
-            if (budgets) return [...budgets, mapBudgetEntityToModel(ent)];
-            return undefined;
+        await this.mutate<BudgetModel[]>(
+            "/budgets",
+            (budgets) => {
+                const budget = mapBudgetEntityToModel(ent);
+                if (budgets) return [...budgets, budget];
+                return [budget];
+            },
+            false,
+        );
+    }
+
+    async edit(budget: BudgetModel, newCategories: CategoryModel[]): Promise<void> {
+        const ent = await this.client.patch<BudgetEntity>(`/budgets/${budget.id}`, {
+            name: budget.name,
+            amount: budget.amount,
+            period: budget.period,
+            categoryIds: budget.categories.map((c) => c.id),
+            newCategories: newCategories.map((c) => c.name),
         });
+        await this.mutate<BudgetModel[]>(
+            "/budgets",
+            (budgets) => {
+                const budget = mapBudgetEntityToModel(ent);
+                if (budgets) return budgets.map((b) => (b.id === budget.id ? budget : b));
+                return [budget];
+            },
+            false,
+        );
     }
 
     async deleteById(id: number): Promise<void> {
         await this.client.delete(`/budgets/${id}`);
-        await this.mutate<BudgetModel[]>(
-            "/budgets",
-            (budgets) => {
-                if (budgets) return budgets.filter((b) => b.id !== id);
-                return undefined;
-            },
-            { revalidate: false },
-        );
+        await this.mutate<BudgetModel[]>("/budgets", (budgets) => (budgets ?? []).filter((b) => b.id !== id), false);
     }
 }
