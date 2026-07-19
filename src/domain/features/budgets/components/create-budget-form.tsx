@@ -5,33 +5,21 @@ import { Form, SubmitHandler } from "@/components/ui/form/form";
 import { InputWithLabel, numberInputRegOpts } from "@/components/ui/form/input";
 import { Controller } from "@/components/ui/form/controller";
 import { SubmitButton } from "@/components/ui/form/submit-button";
+import { useBudgetsAPI } from "@/domain/api/hooks";
+import { DatePickerWithLabel } from "@/components/ui/form/date-picker";
 import { BudgetPeriodSelect } from "./budget-period-select";
 import { AddBudgetCategories } from "./add-budget-categories";
-import { useBudgetsAPI } from "@/domain/api/hooks";
-
-type NewCategory = {
-    id: string;
-    category: CategoryModel;
-};
 
 const categorySchema = yup
     .mixed<CategoryModel>()
-    .test("is-category", "Invalid category", (c) => c instanceof CategoryModel);
-
-const newCategorySchema = yup
-    .mixed<NewCategory>()
-    .test(
-        "is-new-category",
-        "Invalid category",
-        (c) => c && c.category instanceof CategoryModel && typeof c.id === "string",
-    );
+    .test("is-category", "${label} is invalid", (c) => c instanceof CategoryModel);
 
 const schema = yup.object({
     name: yup.string().required().max(50).label("Name"),
     amount: yup.number().required().min(1).max(1_000_000).label("Amount"),
     period: yup.string().oneOf(Object.values(BudgetPeriod)).required().label("Period"),
-    categories: yup.array(categorySchema).required().label("Categories"),
-    newCategories: yup.array(newCategorySchema).required().label("New categories"),
+    startsAt: yup.date().required().label("Starting date"),
+    categories: yup.array(categorySchema.required()).required().label("Category"),
 });
 
 type FormData = yup.InferType<typeof schema>;
@@ -47,13 +35,20 @@ export const CreateBudgetForm = ({ budget, isEdit, onSuccess }: Props) => {
     const budgetsAPI = useBudgetsAPI();
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
-        const newBudget = new BudgetModel(budget?.id ?? 0, data.name, data.amount, 0, data.period, [
-            ...data.categories,
-        ]);
+        const categories = [...data.categories];
+        const newBudget = new BudgetModel(
+            budget?.id ?? 0,
+            data.name,
+            data.amount,
+            0,
+            data.period,
+            data.startsAt,
+            categories,
+        );
         if (isEdit) {
-            await budgetsAPI.edit(newBudget, data.newCategories);
+            await budgetsAPI.edit(newBudget);
         } else {
-            await budgetsAPI.save(newBudget, data.newCategories);
+            await budgetsAPI.save(newBudget);
         }
         onSuccess();
     };
@@ -65,8 +60,8 @@ export const CreateBudgetForm = ({ budget, isEdit, onSuccess }: Props) => {
                 name: budget?.name,
                 amount: budget?.amount,
                 categories: budget?.categories ?? [],
-                newCategories: [],
                 period: budget?.period ?? null,
+                startsAt: budget?.startsAt ?? new Date(),
             }}
             onSubmit={onSubmit}
         >
@@ -95,6 +90,18 @@ export const CreateBudgetForm = ({ budget, isEdit, onSuccess }: Props) => {
                                 onBlur={field.onBlur}
                                 ref={field.ref}
                                 error={formState.errors.period}
+                            />
+                        )}
+                    />
+                    <Controller<FormData, "startsAt">
+                        name="startsAt"
+                        render={({ field, formState }) => (
+                            <DatePickerWithLabel
+                                label="Starting date"
+                                mode="single"
+                                selected={field.value}
+                                onSelect={(date) => field.onChange(date)}
+                                error={formState.errors.startsAt}
                             />
                         )}
                     />

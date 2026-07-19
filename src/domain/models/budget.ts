@@ -19,14 +19,24 @@ export class BudgetModel extends Model {
     readonly period: BudgetPeriod;
     readonly totalSpent: number;
     readonly categories: CategoryModel[];
+    readonly startsAt: Date;
 
-    constructor(id: ModelId, name: string, amount: number, totalSpent: number, period: BudgetPeriod, categories: CategoryModel[]) {
+    constructor(
+        id: ModelId,
+        name: string,
+        amount: number,
+        totalSpent: number,
+        period: BudgetPeriod,
+        startsAt: Date,
+        categories: CategoryModel[],
+    ) {
         super(id);
         this.name = name;
         this.amount = amount;
         this.totalSpent = totalSpent;
         this.period = period;
         this.categories = categories;
+        this.startsAt = startsAt;
     }
 
     get label() {

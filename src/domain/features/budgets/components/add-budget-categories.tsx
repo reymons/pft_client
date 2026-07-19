@@ -33,6 +33,8 @@ export const AddBudgetCategories = () => {
                     categories={categories}
                     selectedCategories={field.value}
                     onSelect={selectCategory}
+                    withClear
+                    onClear={() => field.onChange([])}
                 />
             </div>
         </div>

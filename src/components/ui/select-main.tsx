@@ -1,6 +1,7 @@
 import { SelectRootChangeEventDetails } from "@base-ui/react";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./select";
 import { WithLabel } from "./with-label";
+import { cn } from "@/lib/utils";
 
 export type ValueChangeHandler<T> = (v: T | null, e: SelectRootChangeEventDetails) => void;
 
@@ -21,12 +22,28 @@ type Props<T> = {
     name?: string;
     valueContent: React.ReactNode;
     id?: string;
+    invalid?: boolean;
 };
 
-export const MainSelect = <T,>({ items, value, onValueChange, onBlur, ref, name, valueContent, id }: Props<T>) => {
+export const MainSelect = <T,>({
+    items,
+    value,
+    onValueChange,
+    onBlur,
+    ref,
+    name,
+    valueContent,
+    id,
+    invalid,
+}: Props<T>) => {
     return (
         <Select value={value} onValueChange={onValueChange} name={name} id={id}>
-            <SelectTrigger className="w-full" ref={ref} onBlur={onBlur}>
+            <SelectTrigger
+                className={cn("w-full", invalid && "border-destructive ring-destructive/20")}
+                aria-invalid={invalid}
+                ref={ref}
+                onBlur={onBlur}
+            >
                 {valueContent}
             </SelectTrigger>
             <SelectContent>
@@ -48,7 +65,7 @@ export type MainSelectWithLabelProps<T> = Props<T> & {
 export const MainSelectWithLabel = <T,>({ label, invalid, ...rest }: MainSelectWithLabelProps<T>) => {
     return (
         <WithLabel label={label} invalid={invalid}>
-            {({ id }) => <MainSelect id={id} {...rest} />}
+            {({ id }) => <MainSelect id={id} invalid={invalid} {...rest} />}
         </WithLabel>
     );
 };

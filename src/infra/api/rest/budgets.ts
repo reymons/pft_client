@@ -4,7 +4,6 @@ import { IBudgetsAPI } from "@/domain/ports/api/budgets";
 import { BudgetEntity, mapBudgetEntityToModel } from "./entity/budget";
 import { APIHookReturn } from "@/domain/ports/api/common";
 import { RESTClient } from "@/infra/client/rest";
-import { CategoryModel } from "@/domain/models/category";
 
 export class BudgetsAPI implements IBudgetsAPI {
     constructor(
@@ -22,13 +21,13 @@ export class BudgetsAPI implements IBudgetsAPI {
         return [data ?? null, { isLoading, error }];
     }
 
-    async save(budget: BudgetModel, newCategories: CategoryModel[]): Promise<void> {
+    async save(budget: BudgetModel): Promise<void> {
         const ent = await this.client.post<BudgetEntity>("/budgets", {
             name: budget.name,
             amount: budget.amount,
             period: budget.period,
             categoryIds: budget.categories.map((c) => c.id),
-            newCategories: newCategories.map((c) => c.name),
+            startsAt: budget.startsAt,
         });
         await this.mutate<BudgetModel[]>(
             "/budgets",
@@ -41,13 +40,13 @@ export class BudgetsAPI implements IBudgetsAPI {
         );
     }
 
-    async edit(budget: BudgetModel, newCategories: CategoryModel[]): Promise<void> {
+    async edit(budget: BudgetModel): Promise<void> {
         const ent = await this.client.patch<BudgetEntity>(`/budgets/${budget.id}`, {
             name: budget.name,
             amount: budget.amount,
             period: budget.period,
             categoryIds: budget.categories.map((c) => c.id),
-            newCategories: newCategories.map((c) => c.name),
+            startsAt: budget.startsAt,
         });
         await this.mutate<BudgetModel[]>(
             "/budgets",
