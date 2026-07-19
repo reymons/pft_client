@@ -8,7 +8,7 @@ import { GetStartedButton } from "@/domain/features/auth";
 export const HeroBanner = () => {
     return (
         <section className="grow relative overflow-hidden border-b bg-gradient-to-b from-background to-muted/30">
-            <div className="container mx-auto px-4 py-4 mt-[10%] sm:py-28">
+            <div className="container mx-auto px-4 py-4 sm:py-28">
                 <div className="grid items-center gap-12 lg:grid-cols-2">
                     <div className="space-y-8">
                         <div className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-sm font-medium">

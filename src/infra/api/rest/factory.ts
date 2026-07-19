@@ -6,6 +6,7 @@ import { AuthAPI } from "./auth";
 import { UsersAPI } from "./users";
 import { CategoriesAPI } from "./categories";
 import { TransactionsAPI } from "./transactions";
+import { StatsAPI } from "./stats";
 
 export class APIFactory implements IAPIFactory {
     private budgets: BudgetsAPI | null = null;
@@ -13,6 +14,7 @@ export class APIFactory implements IAPIFactory {
     private users: UsersAPI | null = null;
     private categories: CategoriesAPI | null = null;
     private transactions: TransactionsAPI | null = null;
+    private stats: StatsAPI | null = null;
 
     constructor(
         private readonly client: RESTClient,
@@ -53,5 +55,12 @@ export class APIFactory implements IAPIFactory {
             this.transactions = new TransactionsAPI(this.client);
         }
         return this.transactions;
+    }
+
+    getStatsAPI() {
+        if (!this.stats) {
+            this.stats = new StatsAPI(this.client);
+        }
+        return this.stats;
     }
 }

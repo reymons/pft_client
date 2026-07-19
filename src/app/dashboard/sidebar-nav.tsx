@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CreditCard, PiggyBank, Settings, ChevronRight } from "lucide-react";
+import { LayoutDashboard, CreditCard, PiggyBank, Settings, ChevronRight, Tags } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { paths } from "@/config/paths";
 
@@ -20,6 +20,11 @@ const items = [
         title: "Budgets",
         href: paths.budgets.path,
         icon: PiggyBank,
+    },
+    {
+        title: "Categories",
+        href: paths.categories.path,
+        icon: Tags,
     },
     {
         title: "Settings",

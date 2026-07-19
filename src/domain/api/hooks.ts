@@ -55,3 +55,10 @@ export const useTransactionsAPI = () => {
         (api) => api.transactions,
     );
 };
+
+export const useStatsAPI = () => {
+    return useSelectAPI(
+        (f) => f.getStatsAPI(),
+        (api) => api.stats,
+    );
+};

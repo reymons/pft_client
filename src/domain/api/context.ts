@@ -4,6 +4,7 @@ import { IBudgetsAPI } from "@/domain/ports/api/budgets";
 import { IUsersAPI } from "@/domain/ports/api/users";
 import { ICategoriesAPI } from "../ports/api/categories";
 import { ITransactionsAPI } from "../ports/api/transactions";
+import { IStatsAPI } from "../ports/api/stats";
 
 export type ContextValue = {
     api: {
@@ -12,6 +13,7 @@ export type ContextValue = {
         users?: IUsersAPI;
         categories?: ICategoriesAPI;
         transactions?: ITransactionsAPI;
+        stats?: IStatsAPI;
     };
 };
 

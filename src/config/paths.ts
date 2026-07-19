@@ -17,4 +17,7 @@ export const paths = {
     settings: {
         path: "/dashboard/settings",
     },
+    categories: {
+        path: "/dashboard/categories",
+    },
 };
