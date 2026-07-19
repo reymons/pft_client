@@ -14,7 +14,7 @@ type Props = {
 const globalCategory = new CategoryModel(0, CategoryType.Default, "Global");
 
 export const BudgetCard = ({ budget }: Props) => {
-    const percentage = Math.round((budget.spent / budget.amount) * 100);
+    const percentage = Math.round((budget.totalSpent / budget.amount) * 100);
 
     return (
         <Card>
@@ -32,7 +32,7 @@ export const BudgetCard = ({ budget }: Props) => {
                 <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Spent</span>
                     <span className="font-medium">
-                        ${budget.spent} / ${budget.amount}
+                        ${budget.totalSpent} / ${budget.amount}
                     </span>
                 </div>
                 <div className="mt-3 h-2 rounded-full bg-muted">
