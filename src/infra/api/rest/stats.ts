@@ -27,10 +27,12 @@ export class StatsAPI implements IStatsAPI {
                 const ent = await client.get<SummaryEntity>(route);
                 return new SummaryModel(
                     ent.budgets,
+                    ent.balance,
                     ent.transactions,
                     ent.transactionsPrevMonth,
                     ent.transactionsThisMonth,
-                    ent.balance,
+                    ent.spendingPrevMonth,
+                    ent.spendingThisMonth,
                 );
             },
         });

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, CreditCard, PiggyBank, Settings, ChevronRight, Tags } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { paths } from "@/config/paths";
+import { useStatsAPI } from "@/domain/api/hooks";
 
 const items = [
     {
@@ -76,12 +77,22 @@ export const SidebarNav = ({ onNavigate }: Props) => {
                     })}
                 </nav>
             </div>
-            <div className="border-t p-4">
-                <div className="rounded-lg bg-muted p-4">
-                    <p className="text-xs font-medium text-muted-foreground">This Month</p>
-                    <p className="mt-1 text-xl font-bold">$2,481</p>
-                    <p className="text-xs text-muted-foreground">Total spending</p>
-                </div>
+            <Footer />
+        </div>
+    );
+};
+
+const Footer = () => {
+    const statsAPI = useStatsAPI();
+    const [summary] = statsAPI.useSummary();
+    if (!summary) return null;
+
+    return (
+        <div className="border-t p-4">
+            <div className="rounded-lg bg-muted p-4">
+                <p className="text-xs font-medium text-muted-foreground">This Month</p>
+                <p className="mt-1 text-xl font-bold">${summary.spendingThisMonth}</p>
+                <p className="text-xs text-muted-foreground">Total spending</p>
             </div>
         </div>
     );

@@ -18,6 +18,11 @@ export const Summary = () => {
         100
     ).toFixed(2);
 
+    const spendingRatio = +(
+        ((summary.spendingThisMonth - summary.spendingPrevMonth) / summary.spendingPrevMonth) *
+        100
+    ).toFixed(2);
+
     return (
         <div className="flex flex-wrap gap-4 lg:gap-6">
             <SummaryCard header="Balance">
@@ -41,6 +46,15 @@ export const Summary = () => {
                     </div>
                 </SummaryCard>
             </Link>
+            <SummaryCard header="Spending this month">
+                <div className="flex justify-between align-center">
+                    ${summary.spendingThisMonth}
+                    <div className={cn("flex align-center", spendingRatio > 0 ? "text-green-400" : "text-destructive")}>
+                        {spendingRatio > 0 ? <ArrowUp /> : <ArrowDown />}
+                        {spendingRatio}%
+                    </div>
+                </div>
+            </SummaryCard>
         </div>
     );
 };
@@ -48,6 +62,7 @@ export const Summary = () => {
 const Skeleton = () => {
     return (
         <div className="flex flex-wrap gap-4 lg:gap-6">
+            <SummaryCardSkeleton />
             <SummaryCardSkeleton />
             <SummaryCardSkeleton />
             <SummaryCardSkeleton />
