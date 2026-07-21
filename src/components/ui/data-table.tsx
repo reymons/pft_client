@@ -10,9 +10,18 @@ type Props<T> = Options<T> & {
     isLoading?: boolean;
     renderBefore?: (table: ReactTable<T>) => React.ReactNode;
     total: number;
+    noContentText: string;
 };
 
-export const DataTable = <T,>({ className, isLoading, renderBefore, total, state, ...opts }: Props<T>) => {
+export const DataTable = <T,>({
+    className,
+    isLoading,
+    renderBefore,
+    total,
+    state,
+    noContentText,
+    ...opts
+}: Props<T>) => {
     const table = useReactTable({
         ...opts,
         state,
@@ -44,7 +53,7 @@ export const DataTable = <T,>({ className, isLoading, renderBefore, total, state
                             {!table.getRowModel().rows.length && (
                                 <TableRow>
                                     <TableCell colSpan={opts.columns.length} className="h-24 text-center">
-                                        No available transactions
+                                        {noContentText}
                                     </TableCell>
                                 </TableRow>
                             )}
