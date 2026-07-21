@@ -6,15 +6,19 @@ type Props = AlertExtProps & {
     budgetId: number;
 };
 
-export const DeleteBudgetAlert = ({ budgetId, ...rest }: Props) => {
+export const DeleteBudgetAlert = ({ budgetId, onOpenChange, ...rest }: Props) => {
     const budgetsAPI = useBudgetsAPI();
 
     return (
         <Alert
             {...rest}
+            onOpenChange={onOpenChange}
             title="Delete budget"
             description="Are you sure you want to delete this budget?"
-            onConfirm={() => budgetsAPI.deleteById(budgetId)}
+            onConfirm={async () => {
+                await budgetsAPI.deleteById(budgetId);
+                onOpenChange(false);
+            }}
             actionText="Delete"
         />
     );

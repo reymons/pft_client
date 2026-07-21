@@ -2,6 +2,7 @@ import { DomainError } from "@/domain/error";
 
 export type APIHookReturnState = {
     isLoading: boolean;
+    isValidating: boolean;
     error: DomainError | null;
 };
 

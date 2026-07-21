@@ -23,9 +23,9 @@ type Props = {
 export const TopSpendingCategories = ({ title, limit }: Props) => {
     const [period, setPeriod] = useState(TopSpendingCategoryPeriod.Monthly);
     const statsAPI = useStatsAPI();
-    const [cats, { isLoading }] = statsAPI.useTopSpendingCategories({ period, limit });
+    const [cats, { isValidating }] = statsAPI.useTopSpendingCategories({ period, limit });
 
-    if (isLoading) return <CardSkeleton className="w-full h-[228px]" />;
+    if (!cats && isValidating) return <CardSkeleton className="w-full h-[228px]" />;
 
     const categories = cats ?? [];
     const max = Math.max(...categories.map((c) => c.amount), 1);

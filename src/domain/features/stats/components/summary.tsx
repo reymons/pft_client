@@ -14,12 +14,12 @@ export const Summary = () => {
     if (!summary) return null;
 
     const trxRatio = +(
-        ((summary.transactionsThisMonth - summary.transactionsPrevMonth) / summary.transactionsPrevMonth) *
+        ((summary.transactionsThisMonth - summary.transactionsPrevMonth) / (summary.transactionsPrevMonth || 1)) *
         100
     ).toFixed(2);
 
     const spendingRatio = +(
-        ((summary.spendingThisMonth - summary.spendingPrevMonth) / summary.spendingPrevMonth) *
+        ((summary.spendingThisMonth - summary.spendingPrevMonth) / (summary.spendingPrevMonth || 1)) *
         100
     ).toFixed(2);
 
@@ -39,20 +39,34 @@ export const Summary = () => {
                 <SummaryCard header="Transactions">
                     <div className="flex justify-between align-center">
                         {summary.transactions}
-                        <div className={cn("flex align-center", trxRatio > 0 ? "text-green-400" : "text-destructive")}>
-                            {trxRatio > 0 ? <ArrowUp /> : <ArrowDown />}
-                            {trxRatio}%
-                        </div>
+                        {trxRatio !== 0 && summary.transactionsPrevMonth !== 0 && (
+                            <div
+                                className={cn(
+                                    "flex align-center",
+                                    trxRatio > 0 ? "text-green-400" : "text-destructive",
+                                )}
+                            >
+                                {trxRatio > 0 ? <ArrowUp /> : <ArrowDown />}
+                                {trxRatio}%
+                            </div>
+                        )}
                     </div>
                 </SummaryCard>
             </Link>
             <SummaryCard header="Spending this month">
                 <div className="flex justify-between align-center">
                     ${summary.spendingThisMonth}
-                    <div className={cn("flex align-center", spendingRatio > 0 ? "text-green-400" : "text-destructive")}>
-                        {spendingRatio > 0 ? <ArrowUp /> : <ArrowDown />}
-                        {spendingRatio}%
-                    </div>
+                    {spendingRatio !== 0 && summary.spendingPrevMonth !== 0 && (
+                        <div
+                            className={cn(
+                                "flex align-center",
+                                spendingRatio < 0 ? "text-green-400" : "text-destructive",
+                            )}
+                        >
+                            {spendingRatio > 0 ? <ArrowUp /> : <ArrowDown />}
+                            {spendingRatio}%
+                        </div>
+                    )}
                 </div>
             </SummaryCard>
         </div>

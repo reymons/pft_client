@@ -27,16 +27,15 @@ export class Fetcher {
     useData<T>(conf: FetcherConfig<T, false | undefined>): APIHookReturn<T>;
     useData<T>(conf: FetcherConfig<T, true>): APIHookPaginatedReturn<T>;
     useData<T, P extends boolean | undefined>(conf: FetcherConfig<T, P>): APIHookReturn<T> | APIHookPaginatedReturn<T> {
-        let route = conf.route.path;
-        if (conf.route.query) {
-            route = routeWithQuery(route, conf.route.query);
-        }
-        const { data, isLoading, error } = (conf.immutable ? swrImmutable : swr)(route, {
-            ...conf,
-            fetcher: () => conf.fetcher?.(route, this.client),
+        const { immutable, route, paginated, fetcher, ...rest } = conf;
+        const { path, query } = route;
+        const routeArg = routeWithQuery(path, query);
+        const { data, isLoading, isValidating, error } = (immutable ? swrImmutable : swr)(routeArg, {
+            ...rest,
+            fetcher: () => fetcher?.(routeArg, this.client),
         });
-        const state: APIHookReturnState = { isLoading, error };
-        if (conf.paginated) return [data?.data ?? [], data?.total ?? 0, state];
+        const state: APIHookReturnState = { isLoading, isValidating, error };
+        if (paginated) return [data?.data ?? [], data?.total ?? 0, state];
         else return [data ?? null, state];
     }
 }

@@ -14,7 +14,7 @@ export const Budgets = () => {
                         <BudgetCardSkeleton key={i} />
                     ))}
                 </>
-            ) : !budgets ? (
+            ) : !budgets?.length ? (
                 <p>No budgets at the moment</p>
             ) : (
                 <>

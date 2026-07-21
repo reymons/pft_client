@@ -45,6 +45,7 @@ export class BudgetsAPI extends API implements IBudgetsAPI {
             "/budgets",
             (budgets) => {
                 const budget = mapBudgetEntityToModel(ent);
+                console.log({ budgets });
                 if (budgets) return budgets.map((b) => (b.id === budget.id ? budget : b));
                 return [budget];
             },
