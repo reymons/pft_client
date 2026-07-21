@@ -1,6 +1,6 @@
 import { DomainError } from "@/domain/error";
 
-type APIHookReturnState = {
+export type APIHookReturnState = {
     isLoading: boolean;
     error: DomainError | null;
 };

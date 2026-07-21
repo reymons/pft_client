@@ -9,6 +9,7 @@ export type TransactionEntity = {
     amount: number;
     category: CategoryEntity;
     recurringPeriod: TrxRecurringPeriod | null;
+    addedAt: string;
     createdAt: string;
 };
 
@@ -19,7 +20,7 @@ export function mapTrxEntityToModel(ent: TransactionEntity): TransactionModel {
         ent.name,
         ent.description,
         ent.amount,
-        new Date(ent.createdAt),
+        new Date(ent.addedAt),
         ent.recurringPeriod,
         mapCategoryEntityToModel(ent.category),
     );

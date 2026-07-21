@@ -28,7 +28,7 @@ export class TransactionModel extends Model {
     readonly name: string;
     readonly description: string;
     readonly amount: number;
-    readonly createdAt: Date;
+    readonly addedAt: Date;
     readonly recurringPeriod: TrxRecurringPeriod | null;
     readonly category: CategoryModel;
 
@@ -38,7 +38,7 @@ export class TransactionModel extends Model {
         name: string,
         description: string,
         amount: number,
-        createdAt: Date,
+        addedAt: Date,
         recurringPeriod: TrxRecurringPeriod | null,
         category: CategoryModel,
     ) {
@@ -47,7 +47,7 @@ export class TransactionModel extends Model {
         this.name = name;
         this.description = description;
         this.amount = amount;
-        this.createdAt = createdAt;
+        this.addedAt = addedAt;
         this.recurringPeriod = recurringPeriod;
         this.category = category;
     }

@@ -1,37 +1,22 @@
-import { ScopedMutator } from "swr";
-import swrImmutable from "swr/immutable";
 import { UserModel } from "@/domain/models/user";
 import { IUsersAPI } from "@/domain/ports/api/users";
-import { APIHookReturn } from "@/domain/ports/api/common";
 import { UserEntity } from "./entity/user";
-import { RESTClient } from "@/infra/client/rest";
+import { API } from "./api";
 
-export class UsersAPI implements IUsersAPI {
-    constructor(
-        private readonly client: RESTClient,
-        private readonly mutate: ScopedMutator,
-    ) {}
-
-    private toModel(ent: UserEntity): UserModel {
-        const m = new UserModel();
-        m.id = ent.id;
-        m.name = ent.name;
-        m.createdAt = new Date(ent.createdAt);
-        return m;
-    }
-
-    useCurrentUser(): APIHookReturn<UserModel> {
-        const { data, isLoading, error } = swrImmutable<UserModel>("/users/me", {
-            fetcher: async () => {
-                const ent = await this.client.get<UserEntity>("/users/me");
-                return this.toModel(ent);
+export class UsersAPI extends API implements IUsersAPI {
+    useCurrentUser() {
+        return this.fetcher.useData({
+            route: { path: "/users/me" },
+            fetcher: async (route, client) => {
+                const ent = await client.get<UserEntity>(route);
+                return new UserModel(ent.id, ent.name, new Date(ent.createdAt));
             },
+            immutable: true,
             errorRetryCount: 0,
         });
-        return [data ?? null, { isLoading, error }];
     }
 
     async setCurrentUser(user: UserModel | null): Promise<void> {
-        await this.mutate("/users/me", user, { revalidate: false });
+        await this.fetcher.mutate("/users/me", user, false);
     }
 }

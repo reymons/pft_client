@@ -26,10 +26,9 @@ type Config = {
 };
 
 export function configureAPI(conf: Config) {
-    if (state.configured) {
-        throw new Error("API must be configured only once");
+    if (!state.configured) {
+        state.configured = true;
+        state.factory = conf.factory;
+        state.testEnv = conf.testEnv ?? false;
     }
-    state.configured = true;
-    state.factory = conf.factory;
-    state.testEnv = conf.testEnv ?? false;
 }

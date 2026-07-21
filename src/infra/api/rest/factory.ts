@@ -1,5 +1,3 @@
-import { ScopedMutator } from "swr";
-import { RESTClient } from "@/infra/client/rest";
 import { IAPIFactory } from "@/domain/ports/api/factory";
 import { BudgetsAPI } from "./budgets";
 import { AuthAPI } from "./auth";
@@ -7,6 +5,7 @@ import { UsersAPI } from "./users";
 import { CategoriesAPI } from "./categories";
 import { TransactionsAPI } from "./transactions";
 import { StatsAPI } from "./stats";
+import { Fetcher } from "./fetcher";
 
 export class APIFactory implements IAPIFactory {
     private budgets: BudgetsAPI | null = null;
@@ -16,14 +15,11 @@ export class APIFactory implements IAPIFactory {
     private transactions: TransactionsAPI | null = null;
     private stats: StatsAPI | null = null;
 
-    constructor(
-        private readonly client: RESTClient,
-        private readonly mutate: ScopedMutator,
-    ) {}
+    constructor(private readonly fetcher: Fetcher) {}
 
     getBudgetsAPI() {
         if (!this.budgets) {
-            this.budgets = new BudgetsAPI(this.client, this.mutate);
+            this.budgets = new BudgetsAPI(this.fetcher);
         }
         return this.budgets;
     }
@@ -31,35 +27,35 @@ export class APIFactory implements IAPIFactory {
     getAuthAPI() {
         if (!this.auth) {
             const usersAPI = this.getUsersAPI();
-            this.auth = new AuthAPI(this.client, usersAPI, this.mutate);
+            this.auth = new AuthAPI(this.fetcher, usersAPI);
         }
         return this.auth;
     }
 
     getUsersAPI() {
         if (!this.users) {
-            this.users = new UsersAPI(this.client, this.mutate);
+            this.users = new UsersAPI(this.fetcher);
         }
         return this.users;
     }
 
     getCategoriesAPI() {
         if (!this.categories) {
-            this.categories = new CategoriesAPI(this.client);
+            this.categories = new CategoriesAPI(this.fetcher);
         }
         return this.categories;
     }
 
     getTransactionsAPI() {
         if (!this.transactions) {
-            this.transactions = new TransactionsAPI(this.client);
+            this.transactions = new TransactionsAPI(this.fetcher);
         }
         return this.transactions;
     }
 
     getStatsAPI() {
         if (!this.stats) {
-            this.stats = new StatsAPI(this.client);
+            this.stats = new StatsAPI(this.fetcher);
         }
         return this.stats;
     }
