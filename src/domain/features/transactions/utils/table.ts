@@ -33,7 +33,7 @@ export function filtersToQuery(filters: ColumnFiltersState): UseCurrentTrxFilter
 export function sortingToQuery(sorting: SortingState): UseCurrentTrxSorting {
     const r: UseCurrentTrxSorting = {};
     const sort = sorting.at(0);
-    if (sort && sort.id === "createdAt") {
+    if (sort && sort.id === "addedAt") {
         r.dir = sort.desc ? SortDirection.DESC : SortDirection.ASC;
         r.sortBy = "date";
     }

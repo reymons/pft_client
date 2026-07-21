@@ -25,7 +25,13 @@ export class StatsAPI implements IStatsAPI {
             route: { path: "/stats/summary" },
             fetcher: async (route, client) => {
                 const ent = await client.get<SummaryEntity>(route);
-                return new SummaryModel(ent.budgets, ent.transactions, ent.balance);
+                return new SummaryModel(
+                    ent.budgets,
+                    ent.transactions,
+                    ent.transactionsPrevMonth,
+                    ent.transactionsThisMonth,
+                    ent.balance,
+                );
             },
         });
     }

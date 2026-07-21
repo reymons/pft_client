@@ -9,6 +9,7 @@ import { SubmitButton } from "@/components/ui/form/submit-button";
 import { useTransactionsAPI } from "@/domain/api/hooks";
 import { TrxRecurringPeriodSelect } from "./transaction-recurring-period-select";
 import { SelectTransactionType } from "./select-transaction-type";
+import { DatePickerWithLabel } from "@/components/ui/form/date-picker";
 
 const schema = yup.object({
     type: yup.mixed<TransactionType>().oneOf(Object.values(TransactionType)).required().label("Type"),
@@ -20,7 +21,12 @@ const schema = yup.object({
         .required()
         .label("Category"),
     amount: yup.number().positive().required().label("Amount"),
-    recurringPeriod: yup.mixed<TrxRecurringPeriod>().notRequired().oneOf(Object.values(TrxRecurringPeriod)).label("Period"),
+    addedAt: yup.date().required().label("Date"),
+    recurringPeriod: yup
+        .mixed<TrxRecurringPeriod>()
+        .notRequired()
+        .oneOf(Object.values(TrxRecurringPeriod))
+        .label("Period"),
 });
 
 type FormData = yup.InferType<typeof schema>;
@@ -43,7 +49,7 @@ export const CreateTransactionForm = ({ transaction, isEdit, onSuccess }: Props)
                 data.name,
                 data.description ?? "",
                 data.amount,
-                new Date(),
+                data.addedAt,
                 data.recurringPeriod ?? null,
                 data.category,
             );
@@ -62,6 +68,7 @@ export const CreateTransactionForm = ({ transaction, isEdit, onSuccess }: Props)
                 name: transaction?.name ?? "",
                 description: transaction?.description ?? "",
                 recurringPeriod: transaction?.recurringPeriod ?? null,
+                addedAt: transaction?.addedAt ?? new Date(),
             }}
             onSubmit={onSubmit}
         >
@@ -97,6 +104,18 @@ export const CreateTransactionForm = ({ transaction, isEdit, onSuccess }: Props)
                                 onBlur={field.onBlur}
                                 ref={field.ref}
                                 error={formState.errors.type}
+                            />
+                        )}
+                    />
+                    <Controller<FormData, "addedAt">
+                        name="addedAt"
+                        render={({ field, formState }) => (
+                            <DatePickerWithLabel
+                                label="Date"
+                                error={formState.errors.addedAt}
+                                mode="single"
+                                selected={field.value}
+                                onSelect={(d) => field.onChange(d)}
                             />
                         )}
                     />

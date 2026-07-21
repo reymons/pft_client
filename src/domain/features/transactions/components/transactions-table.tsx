@@ -42,7 +42,7 @@ const columns: ColumnDef<TransactionModel>[] = [
         cell: ({ row }) => <CategoryBadge category={row.original.category} />,
     },
     {
-        accessorKey: "createdAt",
+        accessorKey: "addedAt",
         header: ({ column }) => (
             <button
                 className="flex gap-1 items-center"
@@ -54,7 +54,7 @@ const columns: ColumnDef<TransactionModel>[] = [
             </button>
         ),
         size: 120,
-        cell: ({ row }) => formatDate(row.original.createdAt),
+        cell: ({ row }) => formatDate(row.original.addedAt),
     },
     {
         accessorKey: "description",
@@ -83,6 +83,7 @@ export const TransactionsTable = () => {
 
     return (
         <DataTable
+            className="h-[500px]"
             manualPagination
             manualSorting
             manualFiltering

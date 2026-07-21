@@ -138,23 +138,24 @@ button:not(:disabled) {
     @apply cursor-pointer;
 }
 .custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--border)) transparent;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+    width: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+    background-color: transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: hsl(var(--border));
-  border-radius: 9999px;
+    background-color: hsl(var(--border));
+    border-radius: 3px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground));
+    background-color: hsl(var(--muted-foreground));
 }

@@ -2,8 +2,6 @@ const dateFormatter = new Intl.DateTimeFormat(Intl.DateTimeFormat().resolvedOpti
     year: "numeric",
     month: "long",
     day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
 });
 
 export function formatDate(d: Date) {
