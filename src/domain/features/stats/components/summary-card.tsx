@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardSkeleton } from "@/components/ui/skeletons/card-skeleton";
 
 type Props = {
     header: string;
@@ -16,4 +17,8 @@ export const SummaryCard = ({ header, children }: Props) => {
             </CardContent>
         </Card>
     );
+};
+
+export const SummaryCardSkeleton = () => {
+    return <CardSkeleton className="h-[98px] w-[150px] lg:w-[250px]" />;
 };

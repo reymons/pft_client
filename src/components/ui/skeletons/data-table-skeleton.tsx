@@ -1,6 +1,6 @@
 import { flexRender, Table as ReactTable } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
-import { Skeleton } from "./skeleton";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../table";
+import { Skeleton } from "../skeleton";
 
 type Props<T> = {
     table: ReactTable<T>;
@@ -13,7 +13,7 @@ export const DataTableSkeleton = <T,>({ table }: Props<T>) => {
                 {table.getHeaderGroups().map((hg) => (
                     <TableRow key={hg.id}>
                         {hg.headers.map((hdr) => (
-                            <TableHead key={hdr.id}>
+                            <TableHead key={hdr.id} style={{ width: hdr.getSize() }}>
                                 {hdr.isPlaceholder && null}
                                 {!hdr.isPlaceholder && flexRender(hdr.column.columnDef.header, hdr.getContext())}
                             </TableHead>
@@ -22,7 +22,7 @@ export const DataTableSkeleton = <T,>({ table }: Props<T>) => {
                 ))}
             </TableHeader>
             <TableBody>
-                {Array.from({ length: 10 }).map((_, i) => (
+                {Array.from({ length: 12 }).map((_, i) => (
                     <TableRow key={i}>
                         {table.getVisibleLeafColumns().map((col) => (
                             <TableCell key={col.id}>

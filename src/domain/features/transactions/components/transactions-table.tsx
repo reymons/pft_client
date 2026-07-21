@@ -72,7 +72,7 @@ export const TransactionsTable = () => {
     });
 
     const trxAPI = useTransactionsAPI();
-    const [transactions, totalTransactions] = trxAPI.useCurrent({
+    const [transactions, totalTransactions, { isLoading }] = trxAPI.useCurrent({
         page: pagination.pageIndex,
         pageSize: pagination.pageSize,
         ...filtersToQuery(columnFilters),
@@ -84,6 +84,7 @@ export const TransactionsTable = () => {
     return (
         <DataTable
             className="h-[500px]"
+            isLoading={isLoading}
             manualPagination
             manualSorting
             manualFiltering

@@ -1,6 +1,6 @@
 import { CreateBudgetButton } from "@/domain/features/budgets";
+import { Budgets } from "@/domain/features/budgets/components/budgets";
 import { SectionHeader } from "../section-header";
-import { Budgets } from "./budgets";
 
 const BudgetsPage = () => {
     return (

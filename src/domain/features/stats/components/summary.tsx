@@ -4,12 +4,13 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 import { useStatsAPI } from "@/domain/api/hooks";
 import { cn } from "@/lib/utils";
 import { paths } from "@/config/paths";
-import { SummaryCard } from "./summary-card";
+import { SummaryCard, SummaryCardSkeleton } from "./summary-card";
 
 export const Summary = () => {
     const statsAPI = useStatsAPI();
-    const [summary] = statsAPI.useSummary();
+    const [summary, { isLoading }] = statsAPI.useSummary();
 
+    if (isLoading) return <Skeleton />;
     if (!summary) return null;
 
     const trxRatio = +(
@@ -40,6 +41,16 @@ export const Summary = () => {
                     </div>
                 </SummaryCard>
             </Link>
+        </div>
+    );
+};
+
+const Skeleton = () => {
+    return (
+        <div className="flex flex-wrap gap-4 lg:gap-6">
+            <SummaryCardSkeleton />
+            <SummaryCardSkeleton />
+            <SummaryCardSkeleton />
         </div>
     );
 };

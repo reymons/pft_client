@@ -6,6 +6,7 @@ import { BudgetControls } from "./budget-controls";
 import { CategoryBadges } from "../../categories/components/category-badges";
 import { CategoryBadge } from "../../categories/components/category-badge";
 import { CategoryModel, CategoryType } from "@/domain/models/category";
+import { CardSkeleton } from "@/components/ui/skeletons/card-skeleton";
 
 type Props = {
     budget: BudgetModel;
@@ -49,4 +50,8 @@ export const BudgetCard = ({ budget }: Props) => {
             </CardFooter>
         </Card>
     );
+};
+
+export const BudgetCardSkeleton = () => {
+    return <CardSkeleton className="h-[226px]" />;
 };

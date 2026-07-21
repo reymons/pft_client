@@ -5,6 +5,7 @@ import { TopSpendingCategoryPeriod, topSpendingCategoryPeriodName } from "@/doma
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Item, MainSelect } from "@/components/ui/select-main";
+import { CardSkeleton } from "@/components/ui/skeletons/card-skeleton";
 
 const items: Item<TopSpendingCategoryPeriod>[] = Object.entries(topSpendingCategoryPeriodName).map(
     ([period, text]) => ({
@@ -22,7 +23,10 @@ type Props = {
 export const TopSpendingCategories = ({ title, limit }: Props) => {
     const [period, setPeriod] = useState(TopSpendingCategoryPeriod.Monthly);
     const statsAPI = useStatsAPI();
-    const [cats] = statsAPI.useTopSpendingCategories({ period, limit });
+    const [cats, { isLoading }] = statsAPI.useTopSpendingCategories({ period, limit });
+
+    if (isLoading) return <CardSkeleton className="w-full h-[228px]" />;
+
     const categories = cats ?? [];
     const max = Math.max(...categories.map((c) => c.amount), 1);
 
